@@ -8,7 +8,11 @@
             <div>
                 <el-table :data="pvData" border fit highlight-current-row style="width: 80%;margin: 25px auto;"
                     :header-cell-style="{ 'text-align': 'center' }" :cell-style="{ 'text-align': 'center' }">
-                    <el-table-column prop="name" label="知识点"></el-table-column>
+                    <el-table-column prop="name" label="知识点">
+                        <template slot-scope="scope">
+                                <el-button type="text" @click="CatPractice(scope.row)">{{ scope.row.name }}</el-button>
+                            </template>
+                    </el-table-column>
                     <el-table-column prop="problem_num" label="总数量"></el-table-column>
                     <el-table-column prop="right_num" label="完成数量"></el-table-column>
                 </el-table>
@@ -57,6 +61,10 @@ export default {
                     this.$message.error("更新失败")
                 }
             })
+        },
+        CatPractice(row) {
+            this.$store.commit('getProblem_identity',row.identity) // 这个地方可能和KnowledgeList里面的identity不一样(这个是莫一个知识点的随机问题)
+            this.$router.push({ name: "doproblem"})
         },
         // 初始页page、初始每页数据数pageSize和数据data
         handleSizeChange: function (size) {

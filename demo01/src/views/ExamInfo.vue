@@ -91,7 +91,6 @@
 <script>
 import { teacher_Exam_identity, teacher_ExamProblem_Delete, teacher_Exam_Put, teacher_ExamProblem } from '../api'
 import { publicMethod } from '../utils/public/datechange'
-import qs from 'qs'
 export default {
     data() {
         return {
@@ -213,7 +212,6 @@ export default {
         },
         // 删除考试题目
         Teacher_ExamProblem_Delete() {
-            console.log("没别的意思", this.problem_identities)
             teacher_ExamProblem_Delete(
                 {
                     params: {

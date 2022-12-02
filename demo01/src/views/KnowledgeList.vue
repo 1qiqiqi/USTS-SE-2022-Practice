@@ -33,7 +33,12 @@
             :cell-style="{ 'text-align': 'center' }">
             <el-table-column :index="indexMethod" type="index" width="140" label="序号">
             </el-table-column>
-            <el-table-column prop="name" label="名称">
+            <el-table-column label="名称">
+                <template slot-scope="scope">
+                    <el-button type="text" @click="CatHandle(scope.row)">
+                        {{scope.row.name}}
+                    </el-button>
+                </template>
             </el-table-column>
             <el-table-column prop="ProblemCategory.name" label="类型">
             </el-table-column>
@@ -44,7 +49,7 @@
                 </template>
             </el-table-column>
         </el-table>
-        <el-pagination :pager-count="3" class="pageList" :page-sizes="[5, 10, 20, 30]" :page-size="pageSize"
+        <el-pagination  class="pageList" :page-sizes="[5, 10, 20, 30]" :page-size="pageSize"
             layout="total, sizes, prev, pager, next,jumper" :total="counts" :current-page.sync="page"
             @size-change="handleSizeChange" @current-change="handleCurrentChange"></el-pagination>
     </div>
@@ -64,6 +69,7 @@ export default {
             tableData: [],
             visible: false,
             visible1: false,
+            problems: [],
             exam_identity: '', // 老师选题需要的exam_identity
             identity: '', // 这个其实是那个知识点类型identity
             problem_identities: [],
@@ -104,6 +110,8 @@ export default {
             }).then(({ data }) => {
                 if (data.code === 200) {
                     this.$message.success("添加考试题目成功")
+                    // store中examid的数据要删除
+                    this.$store.commit('addProblems', '')
                     this.$router.push({ name: "examinfo", query: { identity: this.exam_identity } })
                     this.exam_identity = ''; // 复原
                 } else {
@@ -123,7 +131,7 @@ export default {
                     }
                 }).then(({ data }) => {
                     if (data.code === 200) {
-                        this.tableData = data.data.list
+                        this.tableData = data.data.list;
                         this.counts = data.data.total
                         this.$message.success("获取考试题目成功")
                     } else {
@@ -139,14 +147,33 @@ export default {
                     }
                 }).then(({ data }) => {
                     if (data.code === 200) {
-                        this.tableData = data.data.list
+                        this.tableData = data.data.list                 
                         this.counts = data.data.total
+                        this.getAllproblems()
                         this.$message.success("获取考试题目成功")
                     } else {
                         this.$message.error("获取考试题目失败")
                     }
                 });
             }
+        },
+        getAllproblems() {
+            teacher_Problem({
+                    params: {
+                        knowledgeIdentity: this.identity,
+                        page: this.page,
+                        pageSize: this.counts,
+                    }
+                }).then(({ data }) => {
+                    if (data.code === 200) {
+                         // 需要处理一下数据 ，只获取这个知识点的题目的identitys
+                        var problems = data.data.list.map(item => item.identity);
+                        this.$store.commit('getProblems',problems)
+                        this.$message.success("题库存储成功")
+                    } else {
+                        this.$message.error("题库存储失败")
+                    }
+                });
         },
         AddPaper(row) {
             this.isChoosed = true
@@ -161,6 +188,10 @@ export default {
         finish() {
             this.visible = true;
             this.isChoosed = false;
+        },
+        CatHandle(row) {
+            this.$store.commit('getProblem_identity',row.identity)
+            this.$router.push({ name: "doproblem"})
         },
         handleQuery() {
             this.isSearch = true;

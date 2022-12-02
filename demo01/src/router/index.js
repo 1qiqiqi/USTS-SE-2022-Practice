@@ -14,9 +14,12 @@ import Class from '../views/Class.vue'
 import ClassInfo from '../views/ClassInfo.vue'
 import ExamList from '../views/ExamList.vue'
 import ExamInfo from '../views/ExamInfo.vue'
+import DoProblem from '../views/DoProblem.vue'
+import Answer from '../views/Answer.vue'
+import WrongAnswer from '../views/WrongAnswer.vue'
+import DoExamPaper from '../views/DoExamPaper.vue'
 // import PageTwo from '../views/PageTwo.vue'
 Vue.use(VueRouter)
-
 const routes = [
     {
         path: "/", 
@@ -57,6 +60,26 @@ const routes = [
         path: '/examinfo',
         name: 'examinfo',
         component: ExamInfo,
+    },
+    {
+        path: '/doproblem',
+        name: 'doproblem',
+        component: DoProblem,
+    },
+    {
+        path: '/answer',
+        name: 'answer',
+        component: Answer,
+    },
+    {
+        path: '/wronganswer',
+        name: 'wronganswer',
+        component: WrongAnswer,
+    },
+    {
+        path: '/doexampaper',
+        name: 'doexampaper',
+        component: DoExamPaper,
     },
 
 

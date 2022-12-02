@@ -11,12 +11,16 @@
                     <el-table-column prop="CreatedAt" label="日期"><template slot-scope="scope">{{ scope.row.CreatedAt |
                             dateFormat
                     }}</template></el-table-column>
-                    <el-table-column prop="name" label="错题名称"></el-table-column>
+                    <el-table-column label="错题名称">
+                        <template slot-scope="scope">
+                            <el-button type="text" @click="CatWrong(scope.row)">{{ scope.row.name }}</el-button>
+                        </template>
+                    </el-table-column>
                 </el-table>
             </div>
             <div>
-                <el-pagination  background @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                    :current-page="page" :page-sizes="[5, 10, 20, 40]" :page-size="pageSize"
+                <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                    :current-page="page" :page-sizes="[6, 10, 20, 40]" :page-size="pageSize"
                     layout="total, sizes, prev, pager, next, jumper" :total="total">
                 </el-pagination>
             </div>
@@ -31,13 +35,12 @@ export default {
         return {
             // 分页
             page: 1, //初始页
-            pageSize: 5,
+            pageSize: 6,
             pvData: [],
             findName: '',
             keyWord: '',
             total: 0
             // form: {
-
             // }
         }
     },
@@ -70,7 +73,10 @@ export default {
             console.log("下拉显示的第几页", this.page); //点击第几页
             this.student_WrongProblem()
         },
-
+        CatWrong(row) {
+            this.$store.commit('getProblem_identity',row.identity) // 这个地方可能和KnowledgeList里面的identity不一样(这个是莫一个知识点的随机问题)
+            this.$router.push({ name: "wronganswer"})
+        },
         fp_btn() {
             student_WrongProblem({ params: { page: this.page, pageSize: this.pageSize, keyWord: this.keyWord } }).then(({ data }) => {
                 console.log("更新" + data)

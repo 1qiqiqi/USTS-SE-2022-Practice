@@ -51,10 +51,7 @@
                                     @click="Teacher_PublishExam(scope.row)">
                                     发布
                                 </el-button>
-                                <span v-if="scope.row.publish === 1">{{ (
-                                        new Date().getTime() < getTimestamp(scope.row.StartAt) ? "未开始" :
-                                            getTimestamp(scope.row.StartAt) + getTimestamp(scope.row.Duration / 1000000000)
-                                            - new Date().getTime()) < 0 ? "已结束" : "正在进行"
+                                <span v-if="scope.row.publish === 1">{{ getStatus(scope.row.StartAt, scope.row.Duration)
                                 }}</span>
                             </template>
                         </el-table-column>
@@ -134,6 +131,8 @@ export default {
     },
     methods: {
         init() {
+            console.log(new Date().getTime());
+            console.log(this.getTimestamp("2022-11-30T09:16:50.886+08:00"));
             console.log("接收到", this.$route.query.classIdentity)
             this.identity = this.$route.query.classIdentity;
             this.Teacher_Class_identity();
@@ -272,6 +271,13 @@ export default {
         getTimestamp(time) {
             return publicMethod.getTimestamp(time)
         }
+    },
+    computed: {
+        getStatus() {
+            return (StartAt, Duration) => { return new Date().getTime() < this.getTimestamp(StartAt) ? "未开始" :
+                this.getTimestamp(StartAt) + this.getTimestamp(Duration / 1000000000) * 1000 - new
+                    Date().getTime() < 0 ? "已结束" : "正在进行"}
+        },
     }
 }
 </script>
