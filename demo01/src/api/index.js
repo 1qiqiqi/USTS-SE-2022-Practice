@@ -17,8 +17,6 @@ export const Register = (form) => {
 }
 // 获取练习列表
 export const student_Practise = (params) => {
-    console.log("get请求参数" + params.page)
-    console.log("get请求参数" + params['page'])
     return http.get('/student/Practise', params)
 }
 // 老师获取知识点列表

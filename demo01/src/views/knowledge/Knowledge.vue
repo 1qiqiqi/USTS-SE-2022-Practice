@@ -13,11 +13,12 @@
 </template>
 
 <script>
-import { teacher_Knowledge } from '../api'
+import { teacher_Knowledge } from '../../api'
 export default {
     data() {
         return {
             Knowledges: [],
+            classIdentity: ''
         }
     },
     mounted() {
@@ -26,19 +27,22 @@ export default {
     methods: {
         Teacher_Knowledge() {
             teacher_Knowledge().then(({ data }) => {
-                console.log("更新的数据量：" + data.data.list.length)
+                // console.log("更新的数据量：" + data.data.list.length)
                 // console.log("更新" + data.data.list)
-                console.log(data.code)
+                // console.log(data.code)
+                if(this.$route.query.classIdentity) {
+                    this.classIdentity = this.$route.query.classIdentity
+                }
                 if (data.code === 200) {
                     this.Knowledges = data.data.list
-                    this.$message.success("更新成功")
+                    // this.$message.success("更新成功")
                 } else {
                     this.$message.error("更新失败")
                 }
             })
         },
         CatKnowledge(identity) {
-            this.$router.push({name:"knowledgelist",query: {knowledgeIdentity: identity}})
+            this.$router.push({name:"knowledgelist",query: {knowledgeIdentity: identity,classIdentity: this.classIdentity}})
         }
     }
 }

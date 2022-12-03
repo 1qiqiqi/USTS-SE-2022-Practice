@@ -97,7 +97,7 @@
 </template>
 
 <script>
-import { problem_identity, student_PractiseProblemDetail, student_UpProblemAnswer, image } from '../api'
+import { problem_identity, student_PractiseProblemDetail, student_UpProblemAnswer, image } from '../../api'
 import Cookie from 'js-cookie'
 export default {
     data() {
@@ -131,8 +131,8 @@ export default {
     methods: {
         init() {
             this.status = Cookie.get('status')
-            console.log("接收到", this.$store.state.practice.problem_identity)
-            console.log("接收到", Cookie.get('status'))
+            // console.log("接收到", this.$store.state.practice.problem_identity)
+            // console.log("接收到", Cookie.get('status'))
             this.identity = this.$store.state.practice.problem_identity; // 这个identity是答题页面这个题目本身的东西
             this.problems = this.$store.state.practice.problems;
             this.Problem_identity();
@@ -151,10 +151,10 @@ export default {
                         this.knowledgeIdentity = data.data.Knowledge[0].identity // 这个题目属于哪一个知识点
                         this.problem_type = data.data.ProblemCategory.name
                         // 加载图片
-                        console.log("不会没看是积极", this.content);
+                        // console.log("不会没看是积极", this.content);
                         this.Image(this.content);
-                        console.log("content:", data.data.content, "Key:", data.data.Key, "answer:", data.data.answer, "label:", data.data.Knowledge[0].name, "knowledgeIdentity:", data.data.Knowledge[0].identity, "problem_type:", data.data.ProblemCategory.name)
-                        this.$message.success("获取题目详情成功")
+                        // console.log("content:", data.data.content, "Key:", data.data.Key, "answer:", data.data.answer, "label:", data.data.Knowledge[0].name, "knowledgeIdentity:", data.data.Knowledge[0].identity, "problem_type:", data.data.ProblemCategory.name)
+                        // this.$message.success("获取题目详情成功")
                     } else {
                         this.$message.error("获取题目详情失败")
                     }
@@ -175,10 +175,10 @@ export default {
                         this.knowledgeIdentity = data.data.Knowledge[0].identity // 这个题目属于哪一个知识点
                         this.problem_type = data.data.ProblemCategory.name
                         // 加载图片
-                        console.log("不会没看是积极", this.content);
+                        // console.log("不会没看是积极", this.content);
                         this.Image(this.content);
-                        console.log("content:", data.data.content, "Key:", data.data.Key, "answer:", data.data.answer, "label:", data.data.Knowledge[0].name, "knowledgeIdentity:", data.data.Knowledge[0].identity, "problem_type:", data.data.ProblemCategory.name)
-                        this.$message.success("获取题目详情成功")
+                        // console.log("content:", data.data.content, "Key:", data.data.Key, "answer:", data.data.answer, "label:", data.data.Knowledge[0].name, "knowledgeIdentity:", data.data.Knowledge[0].identity, "problem_type:", data.data.ProblemCategory.name)
+                        // this.$message.success("获取题目详情成功")
                     } else {
                         this.$message.error("获取题目详情失败")
                     }
@@ -258,7 +258,7 @@ export default {
     },
     computed: {
         getNextIndex() {
-            console.log("fuick", this.problems.findIndex(item => item === this.identity) + 1);
+            // console.log("fuick", this.problems.findIndex(item => item === this.identity) + 1);
             return this.problems.findIndex(item => item === this.identity) + 1;
         },
         getList() {
@@ -269,7 +269,7 @@ export default {
                     list = this.answer.split(";");
                     this.getLists = list;
                 }
-                console.log("answer", this.answer);
+                // console.log("answer", this.answer);
                 return list;
             }
         }

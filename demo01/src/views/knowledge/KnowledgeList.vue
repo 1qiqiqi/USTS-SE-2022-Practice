@@ -55,7 +55,7 @@
     </div>
 </template>
 <script>
-import { teacher_Problem, teacher_ExamProblem_post } from '../api'
+import { teacher_Problem, teacher_ExamProblem_post } from '../../api'
 export default {
     data() {
         return {
@@ -80,6 +80,7 @@ export default {
                 'duration': '',
                 'name': ''
             },
+            classIdentity: ''
         }
     },
     created() {
@@ -96,11 +97,15 @@ export default {
     },
     methods: {
         init() {
-            console.log("接收到", this.$route.query.knowledgeIdentity)
+            // console.log("接收到", this.$route.query.knowledgeIdentity)
+            // console.log("接收到exam_identity:", this.$store.state.examId.exam_identity)
             if (this.$store.state.examId.exam_identity) {
                 this.exam_identity = this.$store.state.examId.exam_identity
             }
             this.identity = this.$route.query.knowledgeIdentity;
+            if(this.$route.query.classIdentity) {
+                this.classIdentity = this.$route.query.classIdentity;
+            }
             this.Teacher_Problem()
         },
         submit() {
@@ -112,7 +117,7 @@ export default {
                     this.$message.success("添加考试题目成功")
                     // store中examid的数据要删除
                     this.$store.commit('addProblems', '')
-                    this.$router.push({ name: "examinfo", query: { identity: this.exam_identity } })
+                    this.$router.push({ name: "examinfo", query: { identity: this.exam_identity, classIdentity: this.classIdentity} })
                     this.exam_identity = ''; // 复原
                 } else {
                     this.$message.error("添加考试题目失败")
@@ -133,7 +138,7 @@ export default {
                     if (data.code === 200) {
                         this.tableData = data.data.list;
                         this.counts = data.data.total
-                        this.$message.success("获取考试题目成功")
+                        // this.$message.success("获取考试题目成功")
                     } else {
                         this.$message.error("获取考试题目失败")
                     }
@@ -150,7 +155,7 @@ export default {
                         this.tableData = data.data.list                 
                         this.counts = data.data.total
                         this.getAllproblems()
-                        this.$message.success("获取考试题目成功")
+                        // this.$message.success("获取考试题目成功")
                     } else {
                         this.$message.error("获取考试题目失败")
                     }
@@ -169,7 +174,7 @@ export default {
                          // 需要处理一下数据 ，只获取这个知识点的题目的identitys
                         var problems = data.data.list.map(item => item.identity);
                         this.$store.commit('getProblems',problems)
-                        this.$message.success("题库存储成功")
+                        // this.$message.success("题库存储成功")
                     } else {
                         this.$message.error("题库存储失败")
                     }

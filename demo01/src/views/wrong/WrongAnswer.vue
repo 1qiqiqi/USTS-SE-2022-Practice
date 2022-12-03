@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { student_WrongProblem_identity } from "../api";
+import { student_WrongProblem_identity } from "../../api";
 export default {
     data() {
         return {
@@ -68,9 +68,9 @@ export default {
                     this.answer = data.data.Problem.answer
                     this.wrong_answer = data.data.wrong_answer
                     // 加载图片
-                    console.log("不会没看是积极", this.content);
+                    // console.log("不会没看是积极", this.content);
                     this.Image(this.content, this.Key);
-                    this.$message.success("获取题目详情成功")
+                    // this.$message.success("获取题目详情成功")
                 } else {
                     this.$message.error("获取题目详情失败")
                 }

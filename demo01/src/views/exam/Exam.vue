@@ -58,7 +58,7 @@
         </div>
     </div>
 </template>
-<script>
+<!-- <script>
 function createComputedGetter(key) {
     return function computedGetter() {
         console.log('首先执行：computed getter')
@@ -74,10 +74,10 @@ function createComputedGetter(key) {
         }
     }
 }
-</script>
+</script> -->
 <script>
-import { student_Exam, student_Class } from "../api";
-import { publicMethod } from '../utils/public/datechange'
+import { student_Exam, student_Class } from "../../api";
+import { publicMethod } from '../../utils/public/datechange'
 export default {
     data() {
         return {
@@ -102,18 +102,18 @@ export default {
         },
         Student_Exam() {
             student_Exam(({ params: { page: this.page, pageSize: this.pageSize } })).then(({ data }) => {
-                console.log("更新的数据量：" + data)
-                console.log(new Date().getTime());
-                console.log(this.getTimestamp("2022-11-30T09:12:00.886+08:00"));
-                console.log(this.getTimestamp("2022-11-29T22:42:55.886+08:00"));
-                console.log(this.getTimestamp("2022-11-29T20:42:55.886+08:00")); // 这一波 显示了我的智商
-                console.log(this.getTimestamp("2022-11-29T22:42:55.886+08:00") - this.getTimestamp("2022-11-29T20:42:55.886+08:00"));
-                console.log(this.getTimestamp(7200000000000 / 1000000000));
-                console.log(new Date().getTime());
-                console.log("what's up", (new Date().getTime() - this.getTimestamp("2022-11-29T22:42:55.886+08:00")) / (24 * 60 * 60 * 1000));
-                console.log("what fuck", this.getTimestamp("2022-11-29T22:42:55.886+08:00") + this.getTimestamp(7200000000000 / 1000000000) * 1000 - new Date().getTime());
+                // console.log("更新的数据量：" + data)
+                // console.log(new Date().getTime());
+                // console.log(this.getTimestamp("2022-11-30T09:12:00.886+08:00"));
+                // console.log(this.getTimestamp("2022-11-29T22:42:55.886+08:00"));
+                // console.log(this.getTimestamp("2022-11-29T20:42:55.886+08:00")); // 这一波 显示了我的智商
+                // console.log(this.getTimestamp("2022-11-29T22:42:55.886+08:00") - this.getTimestamp("2022-11-29T20:42:55.886+08:00"));
+                // console.log(this.getTimestamp(7200000000000 / 1000000000));
+                // console.log(new Date().getTime());
+                // console.log("what's up", (new Date().getTime() - this.getTimestamp("2022-11-29T22:42:55.886+08:00")) / (24 * 60 * 60 * 1000));
+                // console.log("what fuck", this.getTimestamp("2022-11-29T22:42:55.886+08:00") + this.getTimestamp(7200000000000 / 1000000000) * 1000 - new Date().getTime());
                 // console.log("更新" + data.data.list)
-                console.log(data.code)
+                // console.log(data.code)
                 if (data.code === 200) {
                     if (data.msg === "该学生尚未加入班级") {
                         this.isStart = true
@@ -144,9 +144,9 @@ export default {
         },
         Student_Class() {
             student_Class({ joinCode: this.joinCode }).then(({ data }) => {
-                console.log("更新的数据量：" + data)
+                // console.log("更新的数据量：" + data)
                 // console.log("更新" + data.data.list)
-                console.log(data.code)
+                // console.log(data.code)
                 if (data.code === 200) {
                     this.isStartJoin = false
                     this.isJoin = true
@@ -171,10 +171,10 @@ export default {
             this.init()
         },
         GetIntoExam(row) {
-            if(this.getExam(row.StartAt, row.Duration) === '查看考试') {
-                this.$router.push({ name: "doexampaper", query: { identity: row.identity,IntoStatus: "查看考试" } })
-            } else if(this.getExam(row.StartAt, row.Duration) === '进入考试') {
-                this.$router.push({ name: "doexampaper", query: { identity: row.identity,IntoStatus: "进入考试",StartAt: row.StartAt,Duration: row.Duration, } })
+            if (this.getExam(row.StartAt, row.Duration) === '查看考试') {
+                this.$router.push({ name: "doexampaper", query: { identity: row.identity, IntoStatus: "查看考试" } })
+            } else if (this.getExam(row.StartAt, row.Duration) === '进入考试') {
+                this.$router.push({ name: "doexampaper", query: { identity: row.identity, IntoStatus: "进入考试", StartAt: row.StartAt, Duration: row.Duration, } })
             } else {
                 console.log("什么牛马");
             }
@@ -182,13 +182,17 @@ export default {
     },
     computed: {
         getStatus() {
-            return (StartAt, Duration) => { return new Date().getTime() < this.getTimestamp(StartAt) ? "未开始" :
-                this.getTimestamp(StartAt) + this.getTimestamp(Duration / 1000000000) * 1000 - new
-                    Date().getTime() < 0 ? "已结束" : "正在进行"}
+            return (StartAt, Duration) => {
+                return new Date().getTime() < this.getTimestamp(StartAt) ? "未开始" :
+                    this.getTimestamp(StartAt) + this.getTimestamp(Duration / 1000000000) * 1000 - new
+                        Date().getTime() < 0 ? "已结束" : "正在进行"
+            }
         },
         getExam() {
-            return (StartAt, Duration) => { return this.getTimestamp(StartAt) + this.getTimestamp(Duration / 1000000000) * 1000 - new
-                    Date().getTime() < 0 ? "查看考试" : "进入考试"}
+            return (StartAt, Duration) => {
+                return this.getTimestamp(StartAt) + this.getTimestamp(Duration / 1000000000) * 1000 - new
+                    Date().getTime() < 0 ? "查看考试" : "进入考试"
+            }
         }
     }
 }

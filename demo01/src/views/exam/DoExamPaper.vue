@@ -138,8 +138,8 @@
 
 
 <script>
-import { student_ExamPaper_get, student_ExamPaper_put, student_ExamProblem } from '../api'
-import { publicMethod } from '../utils/public/datechange'
+import { student_ExamPaper_get, student_ExamPaper_put, student_ExamProblem } from '../../api'
+import { publicMethod } from '../../utils/public/datechange'
 export default {
     data() {
         return {
@@ -169,7 +169,7 @@ export default {
             timer: '', // 计时器对象
             MyAnswer: '',
             isStart: true,
-            problem_index: ''
+            problem_index: 0
 
         }
     },
@@ -182,8 +182,10 @@ export default {
             this.IntoStatus = this.$route.query.IntoStatus;
             this.isStart = this.$store.state.examId.isStart;
             this.problem_index = this.$store.state.examId.problem_index
-            console.log("接受到", this.$store.state.examId.problem_index);
-            console.log("接受到： ", this.$store.state.examId.isStart);
+            this.yourAnswer = this.$store.state.examId.yourAnswer
+            // console.log("接受到", this.$store.state.examId.problem_index);
+            // console.log("接受到： ", this.$store.state.examId.isStart);
+            // console.log("接受到答案： ", this.$store.state.examId.yourAnswer);
             if (this.$route.query.IntoStatus === '查看考试') {
                 this.Student_ExamPaper_get()
             } else if (this.$route.query.IntoStatus === '进入考试') {
@@ -247,7 +249,7 @@ export default {
                     } else {
                         this.getProblem(this.problem_index)
                     }
-                    this.$message.success("获取学生考试题目成功")
+                    // this.$message.success("获取学生考试题目成功")
                 } else {
                     this.$message.error("获取学生考试题目失败")
                 }
@@ -279,7 +281,7 @@ export default {
                     } else {
                         this.getProblem(this.problem_index)
                     }
-                    this.$message.success("查看学生考试题目成功")
+                    // this.$message.success("查看学生考试题目成功")
                 } else {
                     this.$message.error("查看学生考试题目失败")
                 }
@@ -310,9 +312,9 @@ export default {
             }).then(({ data }) => {
                 if (data.code === 200) {
                     clearInterval(this.timer);
-                    this.$message.success("答案提交成功")
+                    // this.$message.success("答案提交成功")
                 } else {
-                    this.$message.error("答案提交成功")
+                    this.$message.error("答案提交失败")
                 }
             });
         },
@@ -337,7 +339,6 @@ export default {
                     this.$store.commit('getExamProblem', 0)
                     this.$router.push({ name: "exam" })
                 } else if (this.IntoStatus === '进入考试') {
-                    console.log("服了呀");
                     this.Submit()  // 这个是提交的上一题的答案
                     this.$confirm('即将结束答题, 是否继续?', '提示', {
                         confirmButtonText: '确定',
@@ -386,7 +387,7 @@ export default {
             console.log("yourAnswer:",this.yourAnswer);
             if (this.problem_type === '选择题') {
                 // 提交题目到数组
-                let isHas = false
+                let isHas = false  // 修改答案
                 for (var i = 0; i < this.yourAnswer.length; i++) {
                     if (this.yourAnswer[i].problem_identity === this.problem_identity) {
                         this.yourAnswer[i].answer = this.radio
@@ -399,6 +400,7 @@ export default {
                         "problem_identity": this.problem_identity
                     })
                 }
+                this.$store.commit('getyourAnswer', this.yourAnswer)
             } else if (this.problem_type === '填空题') {
                 // 提交题目到数组
                 let isHas = false
@@ -414,6 +416,7 @@ export default {
                         "problem_identity": this.problem_identity
                     })
                 }
+                this.$store.commit('getyourAnswer', this.yourAnswer)
             } else if (this.problem_type === '判断题') {
                 // 提交题目到数组
                 let isHas = false
@@ -429,7 +432,7 @@ export default {
                         "problem_identity": this.problem_identity
                     })
                 }
-
+                this.$store.commit('getyourAnswer', this.yourAnswer)
             }
         },
         getTimestamp(time) {

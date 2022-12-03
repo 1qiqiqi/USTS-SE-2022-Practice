@@ -99,8 +99,8 @@
 </template>
 
 <script>
-import { teacher_Class_identity, teacher_Exam, teacher_PublishExam, teacher_Class_put, teacher_Exam_post } from '../api'
-import { publicMethod } from '../utils/public/datechange'
+import { teacher_Class_identity, teacher_Exam, teacher_PublishExam, teacher_Class_put, teacher_Exam_post } from '../../api'
+import { publicMethod } from '../../utils/public/datechange'
 export default {
     data() {
         return {
@@ -131,9 +131,9 @@ export default {
     },
     methods: {
         init() {
-            console.log(new Date().getTime());
-            console.log(this.getTimestamp("2022-11-30T09:16:50.886+08:00"));
-            console.log("接收到", this.$route.query.classIdentity)
+            // console.log(new Date().getTime());
+            // console.log(this.getTimestamp("2022-11-30T09:16:50.886+08:00"));
+            // console.log("接收到", this.$route.query.classIdentity)
             this.identity = this.$route.query.classIdentity;
             this.Teacher_Class_identity();
             this.Teacher_Exam();
@@ -163,7 +163,7 @@ export default {
                     this.name = data.data.name;
                     this.student_number = data.data.student_number;
                     this.join_code = data.data.join_code;
-                    this.$message.success("获取班级详情成功")
+                    // this.$message.success("获取班级详情成功")
                 } else {
                     this.$message.error("获取班级详情失败")
                 }
@@ -182,7 +182,7 @@ export default {
                     if (data.code === 200) {
                         this.tableData = data.data.list
                         this.counts = data.data.total
-                        this.$message.success("获取老师考试列表成功")
+                        // this.$message.success("获取老师考试列表成功")
                     } else {
                         this.$message.error("获取老师考试列表失败")
                     }
@@ -198,7 +198,7 @@ export default {
                     if (data.code === 200) {
                         this.tableData = data.data.list
                         this.counts = data.data.total
-                        this.$message.success("获取老师考试列表成功")
+                        // this.$message.success("获取老师考试列表成功")
                     } else {
                         this.$message.error("获取老师考试列表失败")
                     }
@@ -206,11 +206,11 @@ export default {
             }
         },
         CatExamInfo(row) {
-            this.$router.push({ name: "examinfo", query: { identity: row.identity } })
+            this.$router.push({ name: "examinfo", query: { identity: row.identity,classIdentity: this.identity } })
         },
         Teacher_PublishExam(row) {
             teacher_PublishExam({ "exam_identity": row.identity }).then(({ data }) => {
-                console.log(data.code)
+                // console.log(data.code)
                 if (data.code === 200) {
                     console.log(data.data)
                     this.Teacher_Exam();
@@ -260,7 +260,7 @@ export default {
             this.classData.dialogVisible = false
         },
         goback() {
-            this.$router.go(-1)
+            this.$router.push({ name: "classinfo", query: { identity: this.identity }})
         },
         AddHandle() {
             this.classData.dialogVisible = true

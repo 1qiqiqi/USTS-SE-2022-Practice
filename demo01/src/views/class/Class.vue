@@ -50,7 +50,7 @@
 </template>
   
 <script>
-import { Class, teacher_Class, teacher_Class_put } from '../api'
+import { Class, teacher_Class, teacher_Class_put } from '../../api'
 export default {
     data() {
         return {
@@ -109,26 +109,26 @@ export default {
         Class() {
             if (this.isSearch) {
                 Class({ params: { page: this.page, pageSize: this.pageSize,keyWord: this.input } }).then(({ data }) => {
-                    console.log("更新的数据量：" + data.data.list.length)
+                    // console.log("更新的数据量：" + data.data.list.length)
                     // console.log("更新" + data.data.list)
-                    console.log(data.code)
+                    // console.log(data.code)
                     if (data.code === 200) {
                         this.tableData = data.data.list
                         this.counts = data.data.total
-                        this.$message.success("更新成功")
+                        // this.$message.success("更新成功")
                     } else {
                         this.$message.error("更新失败")
                     }
                 })
             } else {
                 Class({ params: { page: this.page, pageSize: this.pageSize } }).then(({ data }) => {
-                    console.log("更新的数据量：" + data.data.list.length)
+                    // console.log("更新的数据量：" + data.data.list.length)
                     // console.log("更新" + data.data.list)
-                    console.log(data.code)
+                    // console.log(data.code)
                     if (data.code === 200) {
                         this.tableData = data.data.list
                         this.counts = data.data.total
-                        this.$message.success("更新成功")
+                        // this.$message.success("更新成功")
                     } else {
                         this.$message.error("更新失败")
                     }

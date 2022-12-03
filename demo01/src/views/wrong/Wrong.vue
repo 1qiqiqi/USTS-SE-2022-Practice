@@ -29,7 +29,7 @@
 </template>
   
 <script>
-import { student_WrongProblem } from "../api";
+import { student_WrongProblem } from "../../api";
 export default {
     data() {
         return {
@@ -50,13 +50,13 @@ export default {
     methods: {
         student_WrongProblem() {
             student_WrongProblem({ params: { page: this.page, pageSize: this.pageSize } }).then(({ data }) => {
-                console.log("更新的数据量：" + data.data.list.length)
+                // console.log("更新的数据量：" + data.data.list.length)
                 // console.log("更新" + data.data.list)
-                console.log(data.code)
+                // console.log(data.code)
                 if (data.code === 200) {
                     this.pvData = data.data.list
                     this.total = data.data.total
-                    this.$message.success("更新成功")
+                    // this.$message.success("更新成功")
                 } else {
                     this.$message.error("更新失败")
                 }
@@ -83,7 +83,7 @@ export default {
                 if (data.code === 200) {
                     this.pvData = data.data.list
                     this.total = data.data.total
-                    this.$message.success("搜索成功", data.data.total)
+                    // this.$message.success("搜索成功", data.data.total)
                 } else {
                     this.$message.error("搜索失败")
                 }

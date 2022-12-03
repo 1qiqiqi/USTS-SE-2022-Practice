@@ -89,8 +89,8 @@
 </template>
 
 <script>
-import { teacher_Exam_identity, teacher_ExamProblem_Delete, teacher_Exam_Put, teacher_ExamProblem } from '../api'
-import { publicMethod } from '../utils/public/datechange'
+import { teacher_Exam_identity, teacher_ExamProblem_Delete, teacher_Exam_Put, teacher_ExamProblem } from '../../api'
+import { publicMethod } from '../../utils/public/datechange'
 export default {
     data() {
         return {
@@ -106,6 +106,7 @@ export default {
             problem_identities: '',
             identity: '',
             isSearch: false,
+            classIdentity: '',
             classData: {
                 'title': '添加考试',
                 'dialogVisible': false,
@@ -123,14 +124,16 @@ export default {
     },
     methods: {
         init() {
-            console.log("接收到", this.$route.query.identity)
+            // console.log("接收到", this.$route.query.identity)
+            // console.log("接收到classIdentity", this.$route.query.classIdentity)
             this.identity = this.$route.query.identity;
+            this.classIdentity = this.$route.query.classIdentity;
             this.Teacher_Exam_identity();
             this.Teacher_ExamProblem();
         },
         Teacher_Exam_Put() {
-            console.log("日期", this.dataForm.date)
-            console.log("时间", this.dataForm.time)
+            // console.log("日期", this.dataForm.date)
+            // console.log("时间", this.dataForm.time)
             var duration = new Date(this.classData.duration);
             duration = (duration.getHours() * 60 * 60 + duration.getMinutes() * 60) * 1000000000
             teacher_Exam_Put({
@@ -158,7 +161,7 @@ export default {
                     this.StartAt = new Date(data.data.StartAt).toLocaleString();
                     this.Duration = Number((data.data.Duration / 1000000000) / 3600).toFixed(2) + "h"
                     this.publish = data.data.publish
-                    this.$message.success("获取班级详情成功")
+                    // this.$message.success("获取班级详情成功")
                 } else {
                     this.$message.error("获取班级详情失败")
                 }
@@ -177,7 +180,7 @@ export default {
                     if (data.code === 200) {
                         this.tableData = data.data.list
                         this.counts = data.data.total
-                        this.$message.success("获取老师考试列表成功")
+                        // this.$message.success("获取老师考试列表成功")
                     } else {
                         this.$message.error("获取老师考试列表失败")
                     }
@@ -193,7 +196,7 @@ export default {
                     if (data.code === 200) {
                         this.tableData = data.data.list
                         this.counts = data.data.total
-                        this.$message.success("获取老师考试列表成功")
+                        // this.$message.success("获取老师考试列表成功")
                     } else {
                         this.$message.error("获取老师考试列表失败")
                     }
@@ -204,7 +207,7 @@ export default {
         // 添加考试题目
         AddProblem() {
             this.$store.commit('addProblems', this.identity)
-            this.$router.push({ name: "knowledge" })
+            this.$router.push({ name: "knowledge" , query: { classIdentity: this.classIdentity }})
         },
         DelProblem(row) {
             this.problem_identities = row.identity;
@@ -251,7 +254,7 @@ export default {
             this.classData.dialogVisible = false
         },
         goback() {
-            this.$router.go(-1)
+            this.$router.push({ name: "examlist", query: { classIdentity: this.classIdentity } })
         },
         change() {
             this.classData.dialogVisible = true

@@ -84,9 +84,9 @@ export default {
         submit() {
             this.$refs.form.validate((valid) => {
                 LoginData(this.form).then(({ data }) => {
-                    console.log(data)
+                    // console.log(data)
                     if (data.code === 200) {
-                        console.log("逆天登陆")
+                        // console.log("逆天登陆")
                         this.$message.success(data.msg)
                         Cookie.set('token', data.data);
                         this.User();
@@ -107,7 +107,7 @@ export default {
             SendCode({ email: this.emailForm.email }).then(({ data }) => {
                 if (data.code === 200) {
                     console.log("邮箱发送验证码")
-                    console.log(data)
+                    // console.log(data)
                     this.$message.success("验证码发送成功")
                     this.isSend = false;
                     let timer = 60;

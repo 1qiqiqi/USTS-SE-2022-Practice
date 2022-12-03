@@ -135,15 +135,15 @@ export default {
     },
     computed: {
         noChildren() {
-            console.log("登陆是学生还是老师",Cookie.get('status'))
+            // console.log("登陆是学生还是老师",Cookie.get('status'))
             if (Cookie.get('status') === '1') {
-                console.log("学生的侧边栏",Cookie.get('status'))
+                // console.log("学生的侧边栏",Cookie.get('status'))
                 return this.menuData.filter(item => !item.children)
             } else if (Cookie.get('status') === '2') {
-                console.log("老师的侧边栏",Cookie.get('status'))
+                // console.log("老师的侧边栏",Cookie.get('status'))
                 return this.menuDatas.filter(item => !item.children)
             } else {
-                console.log("没有登陆的侧边栏",Cookie.get('status'))
+                // console.log("没有登陆的侧边栏",Cookie.get('status'))
                 return this.menuData.filter(item => !item.children)
             }
         },

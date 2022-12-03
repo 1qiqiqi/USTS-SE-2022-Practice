@@ -3,6 +3,7 @@ export default {
         exam_identity : '',
         problem_index : JSON.parse(sessionStorage.getItem("problem_index")) || '',
         isStart: JSON.parse(sessionStorage.getItem("isStart")) || true,
+        yourAnswer: JSON.parse(sessionStorage.getItem("yourAnswer")) || [],
     },
     mutations: {
         // 方法
@@ -16,6 +17,10 @@ export default {
         getIsStart(state,isStart) {
             state.isStart = isStart;
             sessionStorage.setItem("isStart", JSON.stringify(isStart))
+        },
+        getyourAnswer(state,yourAnswer) {
+            state.yourAnswer = yourAnswer;
+            sessionStorage.setItem("yourAnswer", JSON.stringify(yourAnswer))
         }
     }
 }

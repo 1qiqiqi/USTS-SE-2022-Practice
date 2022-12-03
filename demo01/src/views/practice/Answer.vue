@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { image } from '../api'
+import { image } from '../../api'
 import Cookie from 'js-cookie'
 export default {
     data() {
@@ -52,7 +52,7 @@ export default {
     },
     methods: {
         init() {
-            console.log("接收到", this.$route.query.identity, "Key:", this.$route.query.Key)
+            // console.log("接收到", this.$route.query.identity, "Key:", this.$route.query.Key)
             this.identity = this.$route.query.identity; // 这个identity是答题页面这个题目本身的标识
             this.answer = this.$route.query.answer;
             this.Key = this.$route.query.Key;
@@ -71,10 +71,10 @@ export default {
             } else {
                 console.log("什么题型都不属于");
             }
-            console.log("this.identity", this.identity, "this.answer", this.answer);
+            // console.log("this.identity", this.identity, "this.answer", this.answer);
             if (this.$store.state.practice.problems) {
                 this.problems = this.$store.state.practice.problems
-                console.log(this.$store.state.practice.problems)
+                // console.log(this.$store.state.practice.problems)
             } else {
                 console.log("不是的把 怎么会没有题目的哇")
             }

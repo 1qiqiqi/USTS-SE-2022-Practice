@@ -55,7 +55,7 @@ export default {
     },
     computed: {
         isLogin() {
-            console.log(Cookie.get('token')+"用户已登录所以有了token")
+            // console.log(Cookie.get('token')+"用户已登录所以有了token")
             return Cookie.get('token') != undefined
         }
     }

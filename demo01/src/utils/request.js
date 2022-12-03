@@ -10,7 +10,7 @@ const http = axios.create({
 http.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
     if(Cookie.get('token')) {
-      console.log("请求拦截",Cookie.get('token'))
+      // console.log("请求拦截",Cookie.get('token'))
       config.headers.Authorization = Cookie.get('token'); // 把token封装到Authorization里面
     }
     return config;
